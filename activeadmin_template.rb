@@ -1,0 +1,60 @@
+def source_paths
+    Array(super) +
+      [File.join(File.expand_path(File.dirname(__FILE__)),'activeadmin_template/')]
+end
+
+# 替换source
+puts "替换rubygems.org为http://mirros.aliyun.com/rubygems/"
+comment_lines 'Gemfile', /rubygems.org/
+insert_into_file 'Gemfile', "\nsource 'http://mirrors.aliyun.com/rubygems/'\n", after: "source 'https://rubygems.org'\n"
+
+# 添加active_admin相关的gem
+gems_str = <<-HEREDOC
+# Active Admin
+gem 'activeadmin'
+
+# rails locale
+gem 'rails-i18n'
+# devise i18n
+gem 'devise-i18n'
+
+# Kaminari locale
+gem "kaminari-i18n"
+
+gem 'devise'
+gem 'cancancan'
+gem 'draper'
+gem 'pundit'
+
+HEREDOC
+puts "添加active admin相关的gem\n#{gems_str}"
+insert_into_file "Gemfile", gems_str,before: "\ngroup :development, :test do\n"
+
+
+puts "中文本地化文件生成"
+# loccale for zh-CN
+inside "config/locales" do
+    copy_file 'zh-CN.yml', 'zh-CN.yml' # FIXME: copy_file 'config/locales/zh-CN.yml' 不工作，说是找不到这个文件
+end
+
+# 设置默认locale为中文
+puts "设置默认语言为zh-CN"
+insert_into_file "config/application.rb", <<-EOF, after: "# the framework and any gems in your application."
+
+    config.i18n.available_locales = [:en,:'zh-CN']
+    config.i18n.default_locale = :'zh-CN'
+
+EOF
+
+
+# tips
+puts <<-EOF
+
+模板修改完毕！
+接下来请运行:
+1. rails g devise:install
+1.1 rails g devise:views # optional
+2. rails g active_admin:install
+3. rake db:create && rake db:migrate && rake db:seed
+4. rails admin通过admin@example.com, 'password' 登录
+EOF

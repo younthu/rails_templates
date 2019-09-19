@@ -1,0 +1,75 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# The following keys must be escaped otherwise they will not be retrieved by
+# the default I18n backend:
+#
+# true, false, on, off, yes, no
+#
+# Instead, surround them with single quotes.
+#
+# en:
+#   'true': 'foo'
+#
+# To learn more, please read the Rails Internationalization guide
+# available at https://guides.rubyonrails.org/i18n.html.
+
+"zh-CN":
+  hello: "Hello world"
+  active_admin: # active admin 导航栏标签
+    user: "用户"
+  activerecord:
+    models:
+      user: # 单数复数
+        one: "用户"
+        other: "用户"
+    attributes:
+      common: &common
+        id: '编号'
+        created_at: '创建日期'
+        updated_at: '更新于'
+      user:
+        <<: *common
+        id: '编号'
+        name: '姓名'
+        gender: '性别'
+        birth_day: '生日'
+        phone_number: '电话号码'
+        id_number: '身份证号码'
+        qq: 'QQ号码'
+        wechat: '微信'
+        contact_address: '联系地址'
+        cards: '会员卡'
+        package_users: '会员套餐绑定'
+        packages: '套餐'
+        payments: '支付'
+        balances: '余额'
+        credits: '积分'
+      
+  activemodel:
+    models:
+      user: "用户"
+    attributes:
+      user:
+        id: '编号'
+        name: '名字'
+        credit: '积分'
+        created_at: '创建日期'
+        updated_at: '更新日期'
+
+
