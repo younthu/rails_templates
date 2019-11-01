@@ -9,7 +9,16 @@ rails new your_app -m <path_to_template/activeadmin_template.rb>
 3. 设置默认locale为zh-CN
 4. 添加active admin相关的gem包
 5. 添加i18n包。
+6. Dockerfile, rails 2.6.3
+7. Docker-compose.yml
 
+### 运行docker 
+
+  1. 编译Dockerfile: `docker build -t webapp .`
+  2. `docker run -d --name webapp -v $PWD:/var/www -p 3000:3000 webapp` 
+## 问题解决
+1. yarn integrity check failed.  解决办法: 把yarn.lock删除.
+2. 
 # 参考
 1. [rails app template](https://multithreaded.stitchfix.com/blog/2014/01/06/rails-app-templates/)
 2. []()

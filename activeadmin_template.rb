@@ -26,10 +26,28 @@ gem 'cancancan'
 gem 'draper'
 gem 'pundit'
 
+# state machine
+gem 'aasm'
+
+# carrierwave
+gem 'carrierwave', '~> 2.0'
+
 HEREDOC
 puts "添加active admin相关的gem\n#{gems_str}"
 insert_into_file "Gemfile", gems_str,before: "\ngroup :development, :test do\n"
 
+pry = <<-HEREDOC
+
+# pry rails for dev console
+gem 'pry'
+gem 'pry-rails'
+
+# disable cors in development
+gem 'rack-cors'
+
+HEREDOC
+puts "添加pry相关的gem\n#{gems_str}"
+insert_into_file "Gemfile", pry,after: "\ngroup :development, :test do\n"
 
 puts "中文本地化文件生成"
 # loccale for zh-CN
@@ -46,6 +64,11 @@ insert_into_file "config/application.rb", <<-EOF, after: "# the framework and an
 
 EOF
 
+# copy docker files
+puts "copy docker files"
+copy_file "docker/.dockerignore", '.dockerignore'
+copy_file "docker/Dockerfile", "Dockerfile"
+copy_file "docker/Docker-compose.yml", "Docker-compose.yml"
 
 # tips
 puts <<-EOF
@@ -53,7 +76,8 @@ puts <<-EOF
 模板修改完毕！
 接下来请运行:
 1. rails g devise:install
-1.1 rails g devise:views # optional
+1.1 rails g devise:views <user># optional
+1.2 rails g devise:controllers <user>
 2. rails g active_admin:install
 3. rake db:create && rake db:migrate && rake db:seed
 4. rails admin通过admin@example.com, 'password' 登录
