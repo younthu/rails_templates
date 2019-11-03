@@ -11,6 +11,9 @@ rails new your_app -m <path_to_template/activeadmin_template.rb>
 5. 添加i18n包。
 6. Dockerfile, rails 2.6.3
 7. Docker-compose.yml
+8. development模式下disable cors
+9. miniprofiler for development
+10. gem config
 
 ### 运行docker 
 

@@ -32,6 +32,9 @@ gem 'aasm'
 # carrierwave
 gem 'carrierwave', '~> 2.0'
 
+# config
+gem 'config'
+
 HEREDOC
 puts "添加active admin相关的gem\n#{gems_str}"
 insert_into_file "Gemfile", gems_str,before: "\ngroup :development, :test do\n"
@@ -45,7 +48,11 @@ gem 'pry-rails'
 # disable cors in development
 gem 'rack-cors'
 
+# profiler
+gem 'rack-mini-profiler'
+
 HEREDOC
+
 puts "添加pry相关的gem\n#{gems_str}"
 insert_into_file "Gemfile", pry,after: "\ngroup :development, :test do\n"
 
@@ -79,6 +86,7 @@ puts <<-EOF
 1.1 rails g devise:views <user># optional
 1.2 rails g devise:controllers <user>
 2. rails g active_admin:install
+1. rails g config:install
 3. rake db:create && rake db:migrate && rake db:seed
 4. rails admin通过admin@example.com, 'password' 登录
 EOF
