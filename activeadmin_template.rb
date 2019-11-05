@@ -1,3 +1,6 @@
+# refs: https://guides.rubyonrails.org/rails_application_templates.html
+# https://multithreaded.stitchfix.com/blog/2014/01/06/rails-app-templates
+
 def source_paths
     Array(super) +
       [File.join(File.expand_path(File.dirname(__FILE__)),'activeadmin_template/')]
@@ -32,8 +35,11 @@ gem 'aasm'
 # carrierwave
 gem 'carrierwave', '~> 2.0'
 
-# config
+# config loading from yml, can have private local.yml to overwrite public settings
 gem 'config'
+
+# global settings, based on ledermann/rails-settings, conflict with gem 'config', rails g settings:install will fail
+# gem "rails-settings-cached", "~> 2.0"
 
 HEREDOC
 puts "添加active admin相关的gem\n#{gems_str}"
@@ -87,6 +93,8 @@ puts <<-EOF
 1.2 rails g devise:controllers <user>
 2. rails g active_admin:install
 1. rails g config:install
+1. rails g settings:install 
+   or rails g settings:install SiteConfig
 3. rake db:create && rake db:migrate && rake db:seed
 4. rails admin通过admin@example.com, 'password' 登录
 EOF
