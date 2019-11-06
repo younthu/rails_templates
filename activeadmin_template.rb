@@ -41,6 +41,9 @@ gem 'config'
 # global settings, based on ledermann/rails-settings, conflict with gem 'config', rails g settings:install will fail
 # gem "rails-settings-cached", "~> 2.0"
 
+# soft delete
+gem "paranoia", "~> 2.2"
+
 HEREDOC
 puts "添加active admin相关的gem\n#{gems_str}"
 insert_into_file "Gemfile", gems_str,before: "\ngroup :development, :test do\n"
@@ -57,10 +60,12 @@ gem 'rack-cors'
 # profiler
 gem 'rack-mini-profiler'
 
+# rails panel, https://github.com/dejan/rails_panel
+gem 'meta_request'
 HEREDOC
 
 puts "添加pry相关的gem\n#{gems_str}"
-insert_into_file "Gemfile", pry,after: "\ngroup :development, :test do\n"
+insert_into_file "Gemfile", pry,after: "\ngroup :development do\n"
 
 puts "中文本地化文件生成"
 # loccale for zh-CN
@@ -95,6 +100,7 @@ puts <<-EOF
 1. rails g config:install
 1. rails g settings:install 
    or rails g settings:install SiteConfig
+1. for soft delete you can run: rails g migration AddDeletedAtToCategories deleted_at:datetime:index
 3. rake db:create && rake db:migrate && rake db:seed
 4. rails admin通过admin@example.com, 'password' 登录
 EOF

@@ -14,6 +14,20 @@ rails new your_app -m http://example.com/template.rb
 rails app:template LOCATION=http://example.com/template.rb
 ~~~
 
+运行完毕以后可以进行后续安装:
+
+1. rails g devise:install
+  1. rails g devise:views <user># optional
+  1. rails g devise:controllers <user>
+2. rails g active_admin:install
+1. rails g config:install
+1. rails g settings:install 
+   or rails g settings:install SiteConfig
+1. for soft delete you can run: rails g migration AddDeletedAtToCategories deleted_at:datetime:index
+3. rake db:create && rake db:migrate && rake db:seed
+4. rails admin通过admin@example.com, 'password' 登录
+
+
 1. 替换source为aliyun source
 2. 拷贝本地化文件config/locales/zh-CN.yml, 需要汉化的话改这个文件就可以了。
 3. 设置默认locale为zh-CN
@@ -24,6 +38,7 @@ rails app:template LOCATION=http://example.com/template.rb
 8. development模式下disable cors
 9. miniprofiler for development
 10. gem config
+11. soft delete
 
 ## Next
 
