@@ -1,17 +1,18 @@
 # rails_templates
-rails templates
+这是一个rails模板，在rails默认基础上加一些gem和配置, 也包含docker配置文件.
+
 
 ## 使用
 
 ~~~shell
 rails new your_app -m <path_to_template/activeadmin_template.rb>
-rails new your_app -m http://example.com/template.rb
+rails new your_app -m https://raw.githubusercontent.com/younthu/rails_templates/master/activeadmin_template.rb # 需要翻墙
 ~~~
 
 或者用下面的命令去修改一个已经存在的app
 
 ~~~sh
-rails app:template LOCATION=http://example.com/template.rb
+rails app:template LOCATION=https://raw.githubusercontent.com/younthu/rails_templates/master/activeadmin_template.rb # 需要翻墙
 ~~~
 
 运行完毕以后可以进行后续安装:
@@ -39,6 +40,7 @@ rails app:template LOCATION=http://example.com/template.rb
 9. miniprofiler for development
 10. gem config
 11. soft delete
+12. puma killer
 
 ## Next
 

@@ -44,6 +44,9 @@ gem 'config'
 # soft delete
 gem "paranoia", "~> 2.2"
 
+# puma killer
+gem 'puma_worker_killer'
+
 HEREDOC
 puts "添加active admin相关的gem\n#{gems_str}"
 insert_into_file "Gemfile", gems_str,before: "\ngroup :development, :test do\n"
@@ -87,6 +90,18 @@ puts "copy docker files"
 copy_file "docker/.dockerignore", '.dockerignore'
 copy_file "docker/Dockerfile", "Dockerfile"
 copy_file "docker/Docker-compose.yml", "Docker-compose.yml"
+
+# config puma killer
+pumakiller = <<-PUMA
+# puma killer
+before_fork do
+  require 'puma_worker_killer'
+
+  PumaWorkerKiller.enable_rolling_restart(6 * 3600) # Default is every 6 hours
+end
+PUMA
+
+insert_into_file "config/puma.rb", pumakiller
 
 # tips
 puts <<-EOF
