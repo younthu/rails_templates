@@ -116,6 +116,9 @@ disable_cors = <<-CORS
 CORS
 insert_into_file "config/application.rb", disable_cors, after: "# the framework and any gems in your application."
 
+# disable yarn integrity check
+gsub_file 'config/webpacker.yml', 'check_yarn_integrity: true', 'check_yarn_integrity: false'
+
 # tips
 puts <<-EOF
 
