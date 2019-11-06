@@ -103,6 +103,20 @@ PUMA
 
 insert_into_file "config/puma.rb", pumakiller
 
+# disable cors in development mode
+disable_cors = <<-CORS
+
+# disable cors
+config.middleware.insert_before 0, Rack::Cors do
+    allow do
+      origins '*'
+      resource '*', headers: :any, methods: [:get, :post, :put, :delete, :patch, :options]
+    end
+  end if Rails.env.development?
+
+CORS
+insert_into_file "config/application.rb", disable_cors, after: "# the framework and any gems in your application."
+
 # tips
 puts <<-EOF
 

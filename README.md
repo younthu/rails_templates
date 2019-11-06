@@ -29,6 +29,7 @@ rails app:template LOCATION=https://raw.githubusercontent.com/younthu/rails_temp
 4. rails admin通过admin@example.com, 'password' 登录
 
 
+## 定制内容
 1. 替换source为aliyun source
 2. 拷贝本地化文件config/locales/zh-CN.yml, 需要汉化的话改这个文件就可以了。
 3. 设置默认locale为zh-CN
