@@ -53,18 +53,18 @@ insert_into_file "Gemfile", gems_str,before: "\ngroup :development, :test do\n"
 
 pry = <<-HEREDOC
 
-# pry rails for dev console
-gem 'pry'
-gem 'pry-rails'
+    # pry rails for dev console
+    gem 'pry'
+    gem 'pry-rails'
 
-# disable cors in development
-gem 'rack-cors'
+    # disable cors in development
+    gem 'rack-cors'
 
-# profiler
-gem 'rack-mini-profiler'
+    # profiler
+    gem 'rack-mini-profiler'
 
-# rails panel, https://github.com/dejan/rails_panel
-gem 'meta_request'
+    # rails panel, https://github.com/dejan/rails_panel
+    gem 'meta_request'
 HEREDOC
 
 puts "添加pry相关的gem\n#{gems_str}"
@@ -101,18 +101,17 @@ before_fork do
 end
 PUMA
 
-insert_into_file "config/puma.rb", pumakiller
+append_to_file "config/puma.rb", pumakiller
 
 # disable cors in development mode
 disable_cors = <<-CORS
-
-# disable cors
-config.middleware.insert_before 0, Rack::Cors do
-    allow do
-      origins '*'
-      resource '*', headers: :any, methods: [:get, :post, :put, :delete, :patch, :options]
-    end
-  end if Rails.env.development?
+    # disable cors
+    config.middleware.insert_before 0, Rack::Cors do
+        allow do
+            origins '*'
+            resource '*', headers: :any, methods: [:get, :post, :put, :delete, :patch, :options]
+        end
+    end if Rails.env.development?
 
 CORS
 insert_into_file "config/application.rb", disable_cors, after: "# the framework and any gems in your application."
