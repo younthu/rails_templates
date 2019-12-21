@@ -65,6 +65,17 @@ pry = <<-HEREDOC
 
     # rails panel, https://github.com/dejan/rails_panel
     gem 'meta_request'
+
+    # Capistrano, app deployer
+    gem "capistrano", "~> 3.11", require: false
+    gem "capistrano-rails", "~> 1.3", require: false
+    gem 'capistrano-rvm', require: false
+    gem 'capistrano-passenger', require: false
+    gem 'capistrano-bundler', '~> 1.1.2', require: false
+    gem 'capistrano-maintenance', '~> 1.0', require: false
+    gem 'capistrano-sidekiq'
+    gem 'capistrano3-puma'
+    gem 'capistrano-rake', require: false
 HEREDOC
 
 puts "添加pry相关的gem\n#{gems_str}"
@@ -87,9 +98,21 @@ EOF
 
 # copy docker files
 puts "copy docker files"
-copy_file "docker/.dockerignore", '.dockerignore'
-copy_file "docker/Dockerfile", "Dockerfile"
-copy_file "docker/Docker-compose.yml", "Docker-compose.yml"
+copy_file ".dockerignore", '.dockerignore'
+copy_file "Dockerfile", "Dockerfile"
+copy_file "Docker-compose.yml", "Docker-compose.yml"
+copy_file "config/docker/ssh/sshkey.pub", "config/docker/ssh/sshkey.pub" # pub key for zhiyong mac
+copy_file "config/docker/ssh/root_key", "config/docker/ssh/root_key" if File.file?("config/docker/ssh/root_key")# private key root_key and public key root_key.pub need to generate it manually by ssh-keygen
+copy_file "config/docker/ssh/root_key.pub", "config/docker/ssh/root_key.pub" if File.file?("config/docker/ssh/root_key.pub") # private key root_key and public key root_key.pub need to generate it manually by ssh-keygen
+
+
+# copy capistrano file
+puts "copy capistrano files"
+copy_file "Capfile", "Capfile"
+copy_file "config/deploy.rb", "config/deploy.rb"
+copy_file "config/deploy/local_docker.rb", "config/deploy/local_docker.rb"
+copy_file "config/deploy/production.rb", "config/deploy/production.rb"
+copy_file "config/deploy/staging.rb", "config/deploy/staging.rb"
 
 # config puma killer
 pumakiller = <<-PUMA
@@ -116,10 +139,15 @@ disable_cors = <<-CORS
 CORS
 insert_into_file "config/application.rb", disable_cors, after: "# the framework and any gems in your application."
 
-# disable yarn integrity check
-gsub_file 'config/webpacker.yml', 'check_yarn_integrity: true', 'check_yarn_integrity: false'
+after_bundle do
+    # git :init
+    # git add: '.'
+    # git commit: "-a -m 'Initial commit'"
+  
+    # disable yarn integrity check
+    gsub_file 'config/webpacker.yml', 'check_yarn_integrity: true', 'check_yarn_integrity: false'
 
-# tips
+    # tips
 puts <<-EOF
 
 模板修改完毕！
@@ -135,3 +163,5 @@ puts <<-EOF
 3. rake db:create && rake db:migrate && rake db:seed
 4. rails admin通过admin@example.com, 'password' 登录
 EOF
+end
+

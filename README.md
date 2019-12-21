@@ -4,9 +4,12 @@
 
 ## 使用
 
+1. 在activeadmin_template/config/docker/ssh下生成ssh key: root_key和root_key.pub
+2. 用rails命令生成rails项目模板
+   
 ~~~shell
 rails new your_app -m <path_to_template/activeadmin_template.rb>
-rails new your_app -m https://raw.githubusercontent.com/younthu/rails_templates/master/activeadmin_template.rb # 需要翻墙
+docker build . # 编译docker文件
 ~~~
 
 或者用下面的命令去修改一个已经存在的app
@@ -19,14 +22,14 @@ rails app:template LOCATION=https://raw.githubusercontent.com/younthu/rails_temp
 
 1. rails g devise:install
   1. rails g devise:views <user># optional
-  1. rails g devise:controllers <user>
+  2. rails g devise:controllers <user>
 2. rails g active_admin:install
-1. rails g config:install
-1. rails g settings:install 
+3. rails g config:install
+4. rails g settings:install 
    or rails g settings:install SiteConfig
-1. for soft delete you can run: rails g migration AddDeletedAtToCategories deleted_at:datetime:index
-3. rake db:create && rake db:migrate && rake db:seed
-4. rails admin通过admin@example.com, 'password' 登录
+5. for soft delete you can run: rails g migration AddDeletedAtToCategories deleted_at:datetime:index
+6. rake db:create && rake db:migrate && rake db:seed
+7. rails admin通过admin@example.com, 'password' 登录
 
 
 ## 定制内容
@@ -61,3 +64,4 @@ rails app:template LOCATION=https://raw.githubusercontent.com/younthu/rails_temp
 # 参考
 1. [rails app template](https://multithreaded.stitchfix.com/blog/2014/01/06/rails-app-templates/)
 2. [Rails Application Templates](https://guides.rubyonrails.org/rails_application_templates.html)
+3. [Rails Template](https://github.com/mattbrictson/rails-template)
