@@ -103,8 +103,8 @@ copy_file "Dockerfile", "Dockerfile"
 copy_file "Docker-compose.yml", "Docker-compose.yml"
 copy_file "config/docker/docker-entrypoint.sh", "config/docker/docker-entrypoint.sh"
 copy_file "config/docker/ssh/sshkey.pub", "config/docker/ssh/sshkey.pub" # pub key for zhiyong mac
-copy_file "config/docker/ssh/root_key", "config/docker/ssh/root_key" # if File.file?("activeadmin_template/config/docker/ssh/root_key")# private key root_key and public key root_key.pub need to generate it manually by ssh-keygen
-copy_file "config/docker/ssh/root_key.pub", "config/docker/ssh/root_key.pub" # if File.file?("activeadmin_template/config/docker/ssh/root_key.pub") # private key root_key and public key root_key.pub need to generate it manually by ssh-keygen
+# copy_file "config/docker/ssh/root_key", "config/docker/ssh/root_key" # if File.file?("activeadmin_template/config/docker/ssh/root_key")# private key root_key and public key root_key.pub need to generate it manually by ssh-keygen
+# copy_file "config/docker/ssh/root_key.pub", "config/docker/ssh/root_key.pub" # if File.file?("activeadmin_template/config/docker/ssh/root_key.pub") # private key root_key and public key root_key.pub need to generate it manually by ssh-keygen
 
 
 # copy capistrano file
@@ -147,13 +147,18 @@ after_bundle do
   
     # disable yarn integrity check
     gsub_file 'config/webpacker.yml', 'check_yarn_integrity: true', 'check_yarn_integrity: false'
+    
+    # install devise 
+    generate "devise:install"
 
-    # tips
+    # install active_admin
+    # generate "active_admin:install"
+
 puts <<-EOF
 
 模板修改完毕！
 接下来请运行:
-1. rails g devise:install
+1. rails g devise:install # done by template already
 1.1 rails g devise:views <user># optional
 1.2 rails g devise:controllers <user>
 2. rails g active_admin:install
