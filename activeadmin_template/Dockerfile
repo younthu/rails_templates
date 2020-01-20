@@ -79,5 +79,6 @@ EXPOSE 3000
 # tell the Rails dev server to bind to all interfaces by
 # default.
 #CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"] # 只在第一次运行的时候执行, docker run的时候执行
+CMD ["/usr/local/bin/docker-entrypoint.sh"] # 在docker run和docker start的时候都执行
 #CMD ["./start.sh"]
