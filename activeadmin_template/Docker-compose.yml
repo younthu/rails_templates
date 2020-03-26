@@ -4,16 +4,28 @@ services:
     image: postgres
     ports:
       - "5432:5432"
+    environment:
+      - PGDATA=/var/www/postgresql/data
+      - POSTGRES_PASSWORD=pgpwdxx7453.
     volumes:
+      - /var/www/db/postgres:/var/lib/postgresql/data
       - ./tmp/db:/var/lib/postgresql/data
+      # all scripts in /docker-entrypoint-initdb.d/ will be executed while start at the first time
+      - ./config/docker/init.sql:/docker-entrypoint-initdb.d/init.sql
   web:
-    build: .
+#    build: .
+    image: app
 #    command: bash -c "foreman start -f Procfile.dev-server"
     volumes:
-      - '.:/app'
+      - '.:/var/www/app'
     ports:
       - '3000:3000'
     environment:
-      DATABASE_URL: postgres://postgres@db
+      - DB_POSTGRES_HOST=db
+      - DB_POSTGRES_PORT=5432
+      - POSTGRES_DB=tekapic
+      - POSTGRES_PASSWORD=pgpwdxx7453.
+      - POSTGRES_USER=postgres
+      - RAILS_ENV=development
     depends_on:
       - db

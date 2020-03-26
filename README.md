@@ -31,6 +31,20 @@ rails app:template LOCATION=https://raw.githubusercontent.com/younthu/rails_temp
 6. rake db:create && rake db:migrate && rake db:seed
 7. rails admin通过admin@example.com, 'password' 登录
 
+## 数据库初始化
+docker-compose 会加载config/docker/init.sql, 完成app_development database的初始化.
+
+如果是production环境，
+1. 需要自己手动创建数据, 或者修改init.sql来生成对应的数据库.
+1. 同时，需要修改docker-compose.yml, 修改数据库名称和用户名密码等参数.
+2. 还要修改 docker-compose.yml下的db/volumes, 把数据库持久化到另外一个目录下面去，别放代码目录下，很危险。
+  ~~~yml
+      volumes:
+      - /var/www/db/postgres:/var/lib/postgresql/data
+      # all scripts in /docker-entrypoint-initdb.d/ will be executed while start at the first time
+      - ./config/docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+  ~~~
+3. 
 
 ## 定制内容
 1. 替换source为aliyun source
@@ -61,6 +75,9 @@ rails app:template LOCATION=https://raw.githubusercontent.com/younthu/rails_temp
    config.const_name = 'StaticSettings'
    ~~~
 
+# RoadMap
+1. 写一份readme, 拷贝到模板项目里面去，让用户可以通过readme解决很多细节问题。比如devise接下来怎么做，capistrano怎么做。
+2. 
 # 参考
 1. [rails app template](https://multithreaded.stitchfix.com/blog/2014/01/06/rails-app-templates/)
 2. [Rails Application Templates](https://guides.rubyonrails.org/rails_application_templates.html)

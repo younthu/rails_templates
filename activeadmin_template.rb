@@ -57,6 +57,9 @@ pry = <<-HEREDOC
     gem 'pry'
     gem 'pry-rails'
 
+    # for rubymine debug unit test
+    gem 'debase'
+
     # disable cors in development
     gem 'rack-cors'
 
@@ -81,6 +84,13 @@ HEREDOC
 puts "添加pry相关的gem\n#{gems_str}"
 insert_into_file "Gemfile", pry,after: "\ngroup :development do\n"
 
+puts "pg gem"
+pg = <<-HEREDOC
+# Use postgresql as the database for Active Record
+gem 'pg'
+HEREDOC
+
+insert_into_file "Gemfile", pg, after: "gem 'sqlite3'\n"
 puts "中文本地化文件生成"
 # loccale for zh-CN
 inside "config/locales" do
@@ -96,6 +106,9 @@ insert_into_file "config/application.rb", <<-EOF, after: "# the framework and an
 
 EOF
 
+# copy source list file from ali debian
+puts "copy source list file"
+copy_file "ali_debian_buster.list", 'ali_debian_buster.list'
 # copy docker files
 puts "copy docker files"
 copy_file ".dockerignore", '.dockerignore'
@@ -114,6 +127,9 @@ copy_file "config/deploy.rb", "config/deploy.rb"
 copy_file "config/deploy/local_docker.rb", "config/deploy/local_docker.rb"
 copy_file "config/deploy/production.rb", "config/deploy/production.rb"
 copy_file "config/deploy/staging.rb", "config/deploy/staging.rb"
+
+# copy quick start
+copy_file "quick_start.md", "quick_start.md"
 
 # config puma killer
 pumakiller = <<-PUMA

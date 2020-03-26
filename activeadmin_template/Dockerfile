@@ -3,7 +3,16 @@ FROM ruby:2.6.3
 # replace shell with bash so we can source files
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
+# comment this out if don't use aliyun source
+COPY ./ali_debian_buster.list /etc/apt/sources.list
+
 RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs ghostscript
+
+# chinese support, https://ifish.site/linux_language.html
+RUN apt-get install -y locales
+#RUN apt-get install -y ibus ibus-gtk ibus-pinyin
+RUN apt-get install -y ttf-wqy-zenhei
+
 RUN apt install -y vim
 
 RUN mkdir -p /var/www
@@ -14,7 +23,7 @@ RUN curl -sL https://deb.nodesource.com/setup_11.x | bash -
 RUN apt-get install -y nodejs
 
 # npm 换成淘宝源
-#RUN npm install -g cnpm --registry=https://registry.npm.taobao.org
+RUN npm install -g cnpm --registry=https://registry.npm.taobao.org
 
 RUN node -v
 RUN npm -v
@@ -25,7 +34,7 @@ RUN npm -v
 # are made.
 COPY Gemfile Gemfile.lock package.json yarn.lock /tmp/
 WORKDIR /tmp
-RUN gem install bundler -v 1.17.2
+RUN gem install bundler
 #RUN gem install foreman -v 0.85.0
 RUN bundle install --verbose --jobs 20 --retry 5
 
@@ -44,8 +53,8 @@ RUN rm -f /root/.ssh/id_rsa && \
     rm -f /root/.ssh/id_rsa.pub && \
     rm -f /home/app/.ssh/id_rsa &&  \
     rm -f /home/app/.ssh/id_rsa.pub
-ADD config/docker/ssh/root_key /root/.ssh/id_rsa
-ADD config/docker/ssh/root_key.pub /root/.ssh/id_rsa.pub
+#ADD config/docker/ssh/root_key /root/.ssh/id_rsa
+#ADD config/docker/ssh/root_key.pub /root/.ssh/id_rsa.pub
 #ADD config/docker/ssh/root_key /home/app/.ssh/id_rsa
 #ADD config/docker/ssh/root_key.pub /home/app/.ssh/id_rsa.pub
 #RUN chown -R app:app /home/app/.ssh/ && \
@@ -63,9 +72,9 @@ RUN apt-get install tzdata
 # install mediainfo
 RUN apt-get install -y mediainfo
 
-WORKDIR /var/www
+WORKDIR /var/www/app
 # Copy the main application.
-COPY . ./
+#COPY . ./
 
 COPY config/docker/docker-entrypoint.sh /usr/local/bin/
 RUN chmod 777 /usr/local/bin/docker-entrypoint.sh && ln -s /usr/local/bin/docker-entrypoint.sh / # backwards compat
@@ -79,6 +88,9 @@ EXPOSE 3000
 # tell the Rails dev server to bind to all interfaces by
 # default.
 #CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"] # 只在第一次运行的时候执行, docker run的时候执行
-CMD ["/usr/local/bin/docker-entrypoint.sh"] # 在docker run和docker start的时候都执行
+# 只在第一次运行的时候执行, docker run的时候执行
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+
+# 在docker run和docker start的时候都执行
+CMD ["/usr/local/bin/docker-entrypoint.sh"]
 #CMD ["./start.sh"]
