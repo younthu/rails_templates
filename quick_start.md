@@ -14,3 +14,10 @@
 # pitfalls
 
 1. postgresql数据持久化的问题
+2. debian terminal显示中文乱码的问题未解决。
+3. devisetokenauth, 需要把每次请求都更换token的选项去掉
+    ~~~
+    #config/initializers/devise_token_auth.rb
+     config.change_headers_on_each_request = false
+    ~~~
+4. 

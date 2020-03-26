@@ -70,12 +70,12 @@ pry = <<-HEREDOC
     gem 'meta_request'
 
     # Capistrano, app deployer
-    gem "capistrano", "~> 3.11", require: false
-    gem "capistrano-rails", "~> 1.3", require: false
+    gem "capistrano", require: false
+    gem "capistrano-rails", require: false
     gem 'capistrano-rvm', require: false
     gem 'capistrano-passenger', require: false
-    gem 'capistrano-bundler', '~> 1.1.2', require: false
-    gem 'capistrano-maintenance', '~> 1.0', require: false
+    gem 'capistrano-bundler', require: false
+    gem 'capistrano-maintenance', require: false
     gem 'capistrano-sidekiq'
     gem 'capistrano3-puma'
     gem 'capistrano-rake', require: false
@@ -88,6 +88,9 @@ puts "pg gem"
 pg = <<-HEREDOC
 # Use postgresql as the database for Active Record
 gem 'pg'
+
+# Use Redis adapter to run Action Cable in production
+gem 'redis', '~> 4.0'
 HEREDOC
 
 insert_into_file "Gemfile", pg, after: "gem 'sqlite3'\n"
@@ -131,6 +134,8 @@ copy_file "config/deploy/staging.rb", "config/deploy/staging.rb"
 # copy quick start
 copy_file "quick_start.md", "quick_start.md"
 
+# copy devise token auth config file
+copy_file "config/initializers/devise_token_auth.rb", "config/initializers/devise_token_auth.rb"
 # config puma killer
 pumakiller = <<-PUMA
 # puma killer
@@ -163,6 +168,9 @@ after_bundle do
   
     # disable yarn integrity check
     gsub_file 'config/webpacker.yml', 'check_yarn_integrity: true', 'check_yarn_integrity: false'
+
+    # use redis in production
+    gsub_file 'config/environment/production.rb', "# config.cache_store = :mem_cache_store", "config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'] }"
     
     # install devise 
     generate "devise:install"
