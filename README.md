@@ -1,3 +1,4 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 # rails_templates
 这是一个rails模板，在rails默认基础上加一些gem和配置, 也包含docker配置文件.
 
