@@ -2,7 +2,7 @@
 
 service ssh start
 
-bundle install
+bundle install --without development test
 
 # clean tmp/pids/server.pid
 echo "clean up tmp/pids/server.pid"

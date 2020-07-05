@@ -32,13 +32,19 @@ gem 'pundit'
 # state machine
 gem 'aasm'
 
+# 微信支付
+gem 'wx_pay'
+
+# 微信登录, 小程序登录, app微信登录, 公众号管理
+gem 'wechat'
+
 # carrierwave
 gem 'carrierwave', '~> 2.0'
 
 # config loading from yml, can have private local.yml to overwrite public settings
 gem 'config'
 
-# global settings, based on ledermann/rails-settings, conflict with gem 'config', rails g settings:install will fail
+# global settings, based on ledermann/rails-settings, conflict with gem 'config', rails g settings:install will fail, https://github.com/younthu/rails_templates#%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3
 # gem "rails-settings-cached", "~> 2.0"
 
 # soft delete
@@ -145,6 +151,15 @@ before_fork do
   PumaWorkerKiller.enable_rolling_restart(6 * 3600) # Default is every 6 hours
 end
 PUMA
+
+# 复制wechat相关的api文件
+put "复制wechat相关的api文件"
+copy_file "app/controllers/api/base_controller.rb", "app/controllers/api/base_controller.rb" # api base controller
+copy_file "app/controllers/api/login_by_codes.rb", "app/controllers/api/login_by_codes.rb"  # wechat小程序登录
+copy_file "app/controllers/api/users/registrations_controller.rb", "app/controllers/api/users/registrations_controller.rb"
+copy_file "app/controllers/api/users/sessions_controller.rb", "app/controllers/api/users/sessions_controller.rb"
+copy_file "app/controllers/api/users/token_validations_controller.rb", "app/controllers/api/users/token_validations_controller.rb"
+copy_file "app/controllers/api/login_by_codes.rb", "app/controllers/api/login_by_codes.rb"
 
 append_to_file "config/puma.rb", pumakiller
 

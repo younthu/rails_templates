@@ -60,6 +60,11 @@ docker-compose 会加载config/docker/init.sql, 完成app_development database�
 10. gem config
 11. soft delete
 12. puma killer
+13. wechat api
+  1. app/controllers/api/login_by_codes_controller.rb
+  1. routes文件在`config/routes/api.rb`下面
+  1. 在`config/application.rb`中加入`config.paths["config/routes.rb"].concat(Dir[Rails.root.join("config/routes/*.rb")])`, 自动加载所有`config/routes/`下的文件.
+14. wx_pay
 
 ## Next
 
@@ -78,7 +83,7 @@ docker-compose 会加载config/docker/init.sql, 完成app_development database�
 
 # RoadMap
 1. 写一份readme, 拷贝到模板项目里面去，让用户可以通过readme解决很多细节问题。比如devise接下来怎么做，capistrano怎么做。
-2. 
+2. 把每个功能相关的移动到单独的rb文件里面去
 # 参考
 1. [rails app template](https://multithreaded.stitchfix.com/blog/2014/01/06/rails-app-templates/)
 2. [Rails Application Templates](https://guides.rubyonrails.org/rails_application_templates.html)

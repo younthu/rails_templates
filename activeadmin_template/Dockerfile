@@ -36,7 +36,7 @@ COPY Gemfile Gemfile.lock package.json yarn.lock /tmp/
 WORKDIR /tmp
 RUN gem install bundler
 #RUN gem install foreman -v 0.85.0
-RUN bundle install --verbose --jobs 20 --retry 5
+RUN bundle install --verbose --jobs 20 --retry 5 --without development test
 
 # === SSH ===
 # add sshd
