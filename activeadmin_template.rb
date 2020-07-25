@@ -25,6 +25,8 @@ gem 'devise-i18n'
 gem "kaminari-i18n"
 
 gem 'devise'
+gem 'devise_token_auth', github: 'lynndylanhurley/devise_token_auth'
+
 gem 'cancancan'
 gem 'draper'
 gem 'pundit'
@@ -138,7 +140,7 @@ copy_file "config/deploy/production.rb", "config/deploy/production.rb"
 copy_file "config/deploy/staging.rb", "config/deploy/staging.rb"
 
 # copy quick start
-copy_file "quick_start.md", "quick_start.md"
+copy_file "../quick_start.md", "quick_start.md"
 
 # copy devise token auth config file
 copy_file "config/initializers/devise_token_auth.rb", "config/initializers/devise_token_auth.rb"
@@ -153,13 +155,12 @@ end
 PUMA
 
 # 复制wechat相关的api文件
-put "复制wechat相关的api文件"
+puts "复制wechat相关的api文件"
 copy_file "app/controllers/api/base_controller.rb", "app/controllers/api/base_controller.rb" # api base controller
-copy_file "app/controllers/api/login_by_codes.rb", "app/controllers/api/login_by_codes.rb"  # wechat小程序登录
+copy_file "app/controllers/api/login_by_codes_controller.rb", "app/controllers/api/login_by_codes_controller.rb"  # wechat小程序登录
 copy_file "app/controllers/api/users/registrations_controller.rb", "app/controllers/api/users/registrations_controller.rb"
 copy_file "app/controllers/api/users/sessions_controller.rb", "app/controllers/api/users/sessions_controller.rb"
 copy_file "app/controllers/api/users/token_validations_controller.rb", "app/controllers/api/users/token_validations_controller.rb"
-copy_file "app/controllers/api/login_by_codes.rb", "app/controllers/api/login_by_codes.rb"
 
 append_to_file "config/puma.rb", pumakiller
 
@@ -185,7 +186,7 @@ after_bundle do
     gsub_file 'config/webpacker.yml', 'check_yarn_integrity: true', 'check_yarn_integrity: false'
 
     # use redis in production
-    gsub_file 'config/environment/production.rb', "# config.cache_store = :mem_cache_store", "config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'] }"
+    gsub_file 'config/environments/production.rb', "# config.cache_store = :mem_cache_store", "config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'] }"
     
     # install devise 
     generate "devise:install"
