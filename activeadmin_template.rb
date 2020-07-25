@@ -61,6 +61,7 @@ insert_into_file "Gemfile", gems_str,before: "\ngroup :development, :test do\n"
 
 pry = <<-HEREDOC
 
+    gem 'annotate'
     # pry rails for dev console
     gem 'pry'
     gem 'pry-rails'
