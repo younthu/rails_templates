@@ -118,6 +118,14 @@ insert_into_file "config/application.rb", <<-EOF, after: "# the framework and an
 
 EOF
 
+
+# 设置默认locale为中文
+puts "添加auto_load path for rotues/api.rb"
+insert_into_file "config/application.rb", <<-EOF, after: "# the framework and any gems in your application."
+        config.paths["config/routes.rb"].concat(Dir[Rails.root.join("config/routes/*.rb")])
+
+EOF
+
 # copy source list file from ali debian
 puts "copy source list file"
 copy_file "ali_debian_buster.list", 'ali_debian_buster.list'
@@ -162,11 +170,12 @@ copy_file "app/controllers/api/login_by_codes_controller.rb", "app/controllers/a
 copy_file "app/controllers/api/users/registrations_controller.rb", "app/controllers/api/users/registrations_controller.rb"
 copy_file "app/controllers/api/users/sessions_controller.rb", "app/controllers/api/users/sessions_controller.rb"
 copy_file "app/controllers/api/users/token_validations_controller.rb", "app/controllers/api/users/token_validations_controller.rb"
-
+copy_file "app/config/routes/api.rb", "app/config/routes/api.rb"
 append_to_file "config/puma.rb", pumakiller
 
 # disable cors in development mode
 disable_cors = <<-CORS
+
     # disable cors
     config.middleware.insert_before 0, Rack::Cors do
         allow do
