@@ -55,6 +55,8 @@ gem "paranoia", "~> 2.2"
 # puma killer
 gem 'puma_worker_killer'
 
+# 积分系统
+gem 'merit'
 HEREDOC
 puts "添加active admin相关的gem\n#{gems_str}"
 insert_into_file "Gemfile", gems_str,before: "\ngroup :development, :test do\n"
