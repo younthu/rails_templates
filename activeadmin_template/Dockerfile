@@ -4,7 +4,7 @@ FROM ruby:2.6.3
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 # comment this out if don't use aliyun source
-COPY ./ali_debian_buster.list /etc/apt/sources.list
+COPY ./config/docker/ali_debian_buster.list /etc/apt/sources.list
 
 RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs ghostscript
 

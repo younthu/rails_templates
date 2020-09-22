@@ -44,6 +44,7 @@ gem 'wechat'
 gem 'carrierwave', '~> 2.0'
 
 # config loading from yml, can have private local.yml to overwrite public settings
+# start from rails g config:install
 gem 'config'
 
 # global settings, based on ledermann/rails-settings, conflict with gem 'config', rails g settings:install will fail, https://github.com/younthu/rails_templates#%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3
