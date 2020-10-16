@@ -105,7 +105,7 @@ gem 'pg'
 gem 'redis', '~> 4.0'
 HEREDOC
 
-insert_into_file "Gemfile", pg, after: "gem 'sqlite3'\n"
+insert_into_file "Gemfile", pg, before: "\ngroup :development, :test do\n"
 puts "中文本地化文件生成"
 # loccale for zh-CN
 inside "config/locales" do
@@ -131,7 +131,7 @@ EOF
 
 # copy source list file from ali debian
 puts "copy source list file"
-copy_file "ali_debian_buster.list", 'ali_debian_buster.list'
+copy_file "config/docker/ali_debian_buster.list", 'config/docker/ali_debian_buster.list'
 # copy docker files
 puts "copy docker files"
 copy_file ".dockerignore", '.dockerignore'
@@ -173,7 +173,7 @@ copy_file "app/controllers/api/login_by_codes_controller.rb", "app/controllers/a
 copy_file "app/controllers/api/users/registrations_controller.rb", "app/controllers/api/users/registrations_controller.rb"
 copy_file "app/controllers/api/users/sessions_controller.rb", "app/controllers/api/users/sessions_controller.rb"
 copy_file "app/controllers/api/users/token_validations_controller.rb", "app/controllers/api/users/token_validations_controller.rb"
-copy_file "app/config/routes/api.rb", "app/config/routes/api.rb"
+copy_file "config/routes/api.rb", "config/routes/api.rb"
 append_to_file "config/puma.rb", pumakiller
 
 # disable cors in development mode
