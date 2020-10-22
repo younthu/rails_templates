@@ -8,7 +8,7 @@ services:
       - PGDATA=/var/www/postgresql/data
       - POSTGRES_PASSWORD=pgpwdxx7453.
     volumes:
-      - /var/www/db/postgres:/var/lib/postgresql/data
+      # - /var/www/db/postgres:/var/lib/postgresql/data
       - ./tmp/var/www/db:/var/lib/postgresql/data
       # all scripts in /docker-entrypoint-initdb.d/ will be executed while start at the first time
       - ./config/docker/init.sql:/docker-entrypoint-initdb.d/init.sql
