@@ -58,13 +58,16 @@ gem 'puma_worker_killer'
 
 # 积分系统
 gem 'merit'
+
+# sidekiq
+gem 'sidekiq'
 HEREDOC
 puts "添加active admin相关的gem\n#{gems_str}"
 insert_into_file "Gemfile", gems_str,before: "\ngroup :development, :test do\n"
 
 pry = <<-HEREDOC
 
-    gem 'annotate'
+    gem 'annotate' # auto annotate by run 'rails g annotate:install'
     # pry rails for dev console
     gem 'pry'
     gem 'pry-rails'
@@ -203,13 +206,15 @@ after_bundle do
     
     # install webpacker
     rails_command 'webpacker:install'
-    
+
     # install devise 
     generate "devise:install"
 
     # install active_admin
     # generate "active_admin:install"
 
+    # install annotate
+    generate 'annotate:install'
 
 
 puts <<-EOF

@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-    devise_for :admin_users, ActiveAdmin::Devise.config if defined? AdminUser  # please remember to create AdminUser model
     devise_for :users, controllers: { sessions: 'users/sessions' } if defined? User # please remember to create User model
 
     namespace :api do
