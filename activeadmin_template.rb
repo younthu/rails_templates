@@ -141,6 +141,7 @@ copy_file ".dockerignore", '.dockerignore'
 copy_file "Dockerfile", "Dockerfile"
 copy_file "Docker-compose.yml", "Docker-compose.yml"
 copy_file "config/docker/docker-entrypoint.sh", "config/docker/docker-entrypoint.sh"
+copy_file "config/docker/init.sql", "config/docker/init.sql"
 copy_file "config/docker/ssh/sshkey.pub", "config/docker/ssh/sshkey.pub" # pub key for zhiyong mac
 # copy_file "config/docker/ssh/root_key", "config/docker/ssh/root_key" # if File.file?("activeadmin_template/config/docker/ssh/root_key")# private key root_key and public key root_key.pub need to generate it manually by ssh-keygen
 # copy_file "config/docker/ssh/root_key.pub", "config/docker/ssh/root_key.pub" # if File.file?("activeadmin_template/config/docker/ssh/root_key.pub") # private key root_key and public key root_key.pub need to generate it manually by ssh-keygen
