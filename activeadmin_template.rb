@@ -201,11 +201,16 @@ after_bundle do
     # use redis in production
     gsub_file 'config/environments/production.rb', "# config.cache_store = :mem_cache_store", "config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'] }"
     
+    # install webpacker
+    rails_command 'webpacker:install'
+    
     # install devise 
     generate "devise:install"
 
     # install active_admin
     # generate "active_admin:install"
+
+
 
 puts <<-EOF
 
