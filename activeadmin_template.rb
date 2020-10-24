@@ -139,7 +139,7 @@ copy_file "config/docker/ali_debian_buster.list", 'config/docker/ali_debian_bust
 puts "copy docker files"
 copy_file ".dockerignore", '.dockerignore'
 copy_file "Dockerfile", "Dockerfile"
-copy_file "Docker-compose.yml", "Docker-compose.yml"
+copy_file "docker-compose.yml", "docker-compose.yml"
 copy_file "config/docker/docker-entrypoint.sh", "config/docker/docker-entrypoint.sh"
 copy_file "config/docker/init.sql", "config/docker/init.sql"
 copy_file "config/docker/ssh/sshkey.pub", "config/docker/ssh/sshkey.pub" # pub key for zhiyong mac
