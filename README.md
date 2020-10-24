@@ -88,3 +88,20 @@ docker-compose 会加载config/docker/init.sql, 完成app_development database�
 1. [rails app template](https://multithreaded.stitchfix.com/blog/2014/01/06/rails-app-templates/)
 2. [Rails Application Templates](https://guides.rubyonrails.org/rails_application_templates.html)
 3. [Rails Template](https://github.com/mattbrictson/rails-template)
+
+
+# 问题记录
+
+1. Rack::Cors在Development下因为`bundle install --without development test`而起不来的问题.
+   解决办法: 通过defined? Rack::Cors来跳过加载. Rack::Cors只在开发的时候跨域需要用到，生产环境默认用不到。
+2. Could not load the 'listen' gem. Add `gem 'listen'` to the development group of your Gemfile (LoadError)
+   原因: docker模版默认安装 bundle install --without development test
+   解决办法: 在docker-entry.sh里面再安装一遍
+  ~~~sh
+  # for production
+  if "production" == "${RAILS_ENV}"; then
+	  bundle install --without development test
+  else
+	  bundle install --with development
+  fi
+  ~~~
