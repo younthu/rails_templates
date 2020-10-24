@@ -217,6 +217,8 @@ after_bundle do
     # install annotate
     generate 'annotate:install'
 
+    # generate kaminari config file
+    generate 'kaminari:config'
 
 puts <<-EOF
 
