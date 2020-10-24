@@ -189,7 +189,7 @@ disable_cors = <<-CORS
             origins '*'
             resource '*', headers: :any, methods: [:get, :post, :put, :delete, :patch, :options]
         end
-    end if Rails.env.development?
+    end if defined? Rack::Cors
 
 CORS
 insert_into_file "config/application.rb", disable_cors, after: "# the framework and any gems in your application."
