@@ -2,12 +2,14 @@
 
 service ssh start
 
-rm tmp/pids/server.pid
+#bundle install --without development test
+bundle install
 
-# for production
-bundle install --without development test
-rails s -b 0.0.0.0 # it can keep container running
-
-# for development or debug
-# bundle install --with development
-#tail -f /dev/null # keep container running
+# clean tmp/pids/server.pid
+echo "clean up tmp/pids/server.pid"
+PID=tmp/pids/server.pid
+if test -f "$PID"; then
+	rm tmp/pids/server.pid
+fi
+rails s -b 0.0.0.0
+tail -f /dev/null # keep container running
