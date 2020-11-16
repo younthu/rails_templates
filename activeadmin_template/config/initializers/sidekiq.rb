@@ -6,10 +6,9 @@ redis_namespace = Rails.application.secrets.redis_namespace
 Sidekiq.configure_server do |config|
   p redis_server
   config.redis = { url: "redis://#{redis_server}:#{redis_port}/#{redis_db_num}"}
-  # Rails.logger = Sidekiq::Logging.logger
+  Rails.logger = Sidekiq::Logging.logger
 end
 
 Sidekiq.configure_client do |config|
   config.redis = { url: "redis://#{redis_server}:#{redis_port}/#{redis_db_num}"}
-  # Rails.logger = Sidekiq::Logging.logger
 end
