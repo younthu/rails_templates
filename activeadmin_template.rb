@@ -212,7 +212,7 @@ after_bundle do
     generate "devise:install"
 
     # install active_admin
-    # generate "active_admin:install"
+    generate "active_admin:install"
 
     # install annotate
     generate 'annotate:install'
@@ -227,7 +227,7 @@ puts <<-EOF
 1. rails g devise:install # done by template already
 1.1 rails g devise:views <user># optional
 1.2 rails g devise:controllers <user>
-2. rails g active_admin:install
+# 2. rails g active_admin:install
 1. rails g config:install
 1. rails g settings:install 
    or rails g settings:install SiteConfig

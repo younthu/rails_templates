@@ -65,6 +65,9 @@ docker-compose 会加载config/docker/init.sql, 完成app_development database�
   1. routes文件在`config/routes/api.rb`下面
   1. 在`config/application.rb`中加入`config.paths["config/routes.rb"].concat(Dir[Rails.root.join("config/routes/*.rb")])`, 自动加载所有`config/routes/`下的文件.
 14. wx_pay
+1. sidekiq
+    1. 加了一个`initializers/sidekiq.rb`.
+    1. 
 
 ## Next
 
