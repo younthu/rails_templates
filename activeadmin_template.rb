@@ -78,6 +78,9 @@ pry = <<-HEREDOC
     # disable cors in development
     gem 'rack-cors'
 
+    # for testing data generation
+    gem 'faker'
+
     # profiler
     gem 'rack-mini-profiler'
 
