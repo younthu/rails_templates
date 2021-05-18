@@ -8,8 +8,8 @@ end
 
 # 替换source
 puts "替换rubygems.org为http://mirros.aliyun.com/rubygems/"
-comment_lines 'Gemfile', /rubygems.org/
-insert_into_file 'Gemfile', "\nsource 'http://mirrors.aliyun.com/rubygems/'\n", after: "source 'https://rubygems.org'\n"
+#comment_lines 'Gemfile', /rubygems.org/
+#insert_into_file 'Gemfile', "\nsource 'http://mirrors.aliyun.com/rubygems/'\n", after: "source 'https://rubygems.org'\n"
 
 # 添加active_admin相关的gem
 gems_str = <<-HEREDOC
@@ -81,11 +81,8 @@ pry = <<-HEREDOC
     # for testing data generation
     gem 'faker'
 
-    # profiler
-    gem 'rack-mini-profiler'
-
     # rails panel, https://github.com/dejan/rails_panel
-    gem 'meta_request'
+    # gem 'meta_request'
 
     # Capistrano, app deployer
     gem "capistrano", require: false
@@ -118,9 +115,10 @@ inside "config/locales" do
     copy_file 'zh-CN.yml', 'zh-CN.yml' # FIXME: copy_file 'config/locales/zh-CN.yml' 不工作，说是找不到这个文件
 end
 
+app_config_file_anchor = '# config.eager_load_paths << Rails.root.join("extras")'
 # 设置默认locale为中文
 puts "设置默认语言为zh-CN"
-insert_into_file "config/application.rb", <<-EOF, after: "# the framework and any gems in your application."
+insert_into_file "config/application.rb", <<-EOF, after: app_config_file_anchor
 
     config.i18n.available_locales = [:en,:'zh-CN']
     config.i18n.default_locale = :'zh-CN'
@@ -129,8 +127,8 @@ EOF
 
 
 # 设置默认locale为中文
-puts "添加auto_load path for rotues/api.rb"
-insert_into_file "config/application.rb", <<-EOF, after: "# the framework and any gems in your application."
+puts "添加auto_load path for routes/api.rb"
+insert_into_file "config/application.rb", <<-EOF, after: app_config_file_anchor
         config.paths["config/routes.rb"].concat(Dir[Rails.root.join("config/routes/*.rb")])
 
 EOF
@@ -195,7 +193,9 @@ disable_cors = <<-CORS
     end if defined? Rack::Cors
 
 CORS
-insert_into_file "config/application.rb", disable_cors, after: "# the framework and any gems in your application."
+
+puts "Disable cors. 请把Gem Rack::Cors放development组下面, 不要放production"
+insert_into_file "config/application.rb", disable_cors, after: app_config_file_anchor
 
 after_bundle do
     # git :init

@@ -1,4 +1,4 @@
-FROM ruby:2.7.1
+FROM ruby:3.0
 # https://rubyinrails.com/2019/03/29/dockerify-rails-6-application-setup/
 # replace shell with bash so we can source files
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
